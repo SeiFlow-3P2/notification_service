@@ -7,17 +7,17 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/SeiFlow-3P2/notification_service/internal/app"
+	"notification_service/internal/app"
 )
 
 func main() {
-	// Инициализация приложения
+	// Инициализация 
 	a, err := app.NewApp()
 	if err != nil {
 		log.Fatalf("Failed to initialize app: %v", err)
 	}
 
-	// Запуск приложения
+	// Запуск 
 	if err := a.Run(); err != nil {
 		log.Fatalf("Failed to run app: %v", err)
 	}

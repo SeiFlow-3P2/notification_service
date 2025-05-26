@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"notification_service/internal/app"
+	"github.com/SeiFlow-3P2/notification_service/internal/app"
 )
 
 func main() {

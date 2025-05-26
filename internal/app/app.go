@@ -7,15 +7,14 @@ import (
     "net/http"
     "time"
 
-    "notification_service/config"
-    "notification_service/consumer"
-    "notification_service/kafka"
-    "notification_service/logger"
-    "notification_service/metrics"
-    "notification_service/telegram"
-    "notification_service/telemetry"
-
-    "github.com/segmentio/kafka-go"
+    "github.com/SeiFlow-3P2/notification_service/internal/config"
+    "github.com/SeiFlow-3P2/notification_service/internal/consumer"
+    "github.com/SeiFlow-3P2/notification_service/internal/client/telegram"
+    "github.com/SeiFlow-3P2/notification_service/pkg/kafka"
+    "github.com/SeiFlow-3P2/notification_service/pkg/logger"
+    "github.com/SeiFlow-3P2/notification_service/pkg/metrics"
+    "github.com/SeiFlow-3P2/notification_service/pkg/telemetry"
+    "go.uber.org/zap"
     "google.golang.org/grpc"
 )
 

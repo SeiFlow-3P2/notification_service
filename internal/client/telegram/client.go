@@ -3,6 +3,7 @@ package telegram
 import (
     "context"
     "errors"
+    "strings"
     "gopkg.in/telegram-bot-api.v4"
 )
 
@@ -22,12 +23,11 @@ func (c *Client) SendMessage(ctx context.Context, userID int64, text string) err
     msg := tgbotapi.NewMessage(userID, text)
     _, err := c.bot.Send(msg)
     if err != nil {
-        if apiErr, ok := err.(tgbotapi.Error); ok {
-            if apiErr.Code == 403 {
-                return errors.New("bot is blocked by user or user not found")
-            } else if apiErr.Code == 429 {
-                return errors.New("too many requests to Telegram API")
-            }
+        errStr := err.Error()
+        if strings.Contains(errStr, "403") {
+            return errors.New("bot is blocked by user or user not found")
+        } else if strings.Contains(errStr, "429") {
+            return errors.New("too many requests to Telegram API")
         }
         return err
     }

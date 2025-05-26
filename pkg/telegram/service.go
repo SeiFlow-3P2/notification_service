@@ -4,7 +4,7 @@ import (
     "context"
     "fmt"
 
-    "notification_service/client/telegram"
+    "github.com/SeiFlow-3P2/notification_service/internal/client/telegram"
 )
 
 type Service struct {

@@ -1,20 +1,22 @@
 package consumer
 
 import (
-    "context"
-    "encoding/json"
-    "time"
+	"context"
+	"encoding/json"
+	"fmt"
+	"time"
 
-    "notification_service/domain"
-    "notification_service/logger"
-    "notification_service/telegram"
-    "notification_service/telemetry"
+    "github.com/SeiFlow-3P2/notification_service/internal/client/telegram"
+	"github.com/SeiFlow-3P2/notification_service/internal/domain"
+	"github.com/SeiFlow-3P2/notification_service/pkg/logger"
+	// "github.com/SeiFlow-3P2/notification_service/pkg/telegram"
+	"github.com/SeiFlow-3P2/notification_service/pkg/telemetry"
 
-    "github.com/cenkalti/backoff/v4"
-    "github.com/segmentio/kafka-go"
-    "go.opentelemetry.io/otel/attribute"
-    "go.opentelemetry.io/otel/trace"
-    "go.uber.org/zap"
+	"github.com/cenkalti/backoff/v4"
+	"github.com/segmentio/kafka-go"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/trace"
+	"go.uber.org/zap"
 )
 
 type Consumer struct {
@@ -25,7 +27,8 @@ type Consumer struct {
 }
 
 func NewConsumer(kafkaClient *kafka.Reader, tgClient *telegram.Client, topic string) (*Consumer, error) {
-    kafkaClient.Config().Topic = topic
+    // kafkaTopic := kafkaClient.Config().Topic 
+    // kafkaTopic = topic
     return &Consumer{
         reader:    kafkaClient,
         tgClient:  tgClient,
@@ -119,10 +122,10 @@ func (c *Consumer) sendWithRetry(ctx context.Context, userID int64, text string)
     b.MaxElapsedTime = 5 * time.Minute
     return backoff.Retry(func() error {
         // Трассировка для каждой попытки отправки
-        ctx, span := c.tracer.Start(ctx, "telegram_send_attempt")
+        _, span := c.tracer.Start(ctx, "telegram_send_attempt")
         defer span.End()
 
-        err := c.tgClient.SendMessage(userID, text)
+        err := c.tgClient.SendMessage(ctx, userID, text)
         if err != nil {
             logger.Warn("Retrying to send message",
                 zap.Int64("user_id", userID),

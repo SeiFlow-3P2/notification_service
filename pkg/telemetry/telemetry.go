@@ -2,7 +2,6 @@ package telemetry
 
 import (
 	"context"
-	"log"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
@@ -10,8 +9,8 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.21.0"
+	"go.opentelemetry.io/otel/trace"
 )
-
 func Init() error {
 	ctx := context.Background()
 	exporter, err := otlptracegrpc.New(ctx, otlptracegrpc.WithInsecure(), otlptracegrpc.WithEndpoint("localhost:4317"))
@@ -29,7 +28,6 @@ func Init() error {
 	otel.SetTextMapPropagator(propagation.TraceContext{})
 	return nil
 }
-
-func Tracer() otel.Tracer {
+func Tracer() trace.Tracer {
 	return otel.Tracer("notification-service")
 }

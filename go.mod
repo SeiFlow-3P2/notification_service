@@ -1,6 +1,8 @@
-module notification_service
+module github.com/SeiFlow-3P2/notification_service
 
 go 1.24.3
+
+require go.uber.org/zap v1.27.0
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -28,6 +30,7 @@ require (
 	go.opentelemetry.io/otel/sdk v1.36.0 // indirect
 	go.opentelemetry.io/otel/trace v1.36.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.6.0 // indirect
+	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/net v0.40.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.25.0 // indirect
@@ -36,5 +39,4 @@ require (
 	google.golang.org/grpc v1.72.1 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/telegram-bot-api.v4 v4.6.4 // indirect
-	go.uber.org/zap v1.27.0
 )
